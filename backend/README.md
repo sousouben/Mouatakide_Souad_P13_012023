@@ -29,6 +29,9 @@ mongo --version
 1. Run the following commands:
 
 ```bash
+# entrer dans le fichier
+cd backend
+
 # Install dependencies
 npm install
 
