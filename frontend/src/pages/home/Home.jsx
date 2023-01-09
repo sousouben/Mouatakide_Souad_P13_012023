@@ -1,4 +1,5 @@
 import React from "react";
+import "./home.css";
 import Banner from "../../components/banner/Banner";
 import FeaturesChat from "../../components/features/FeaturesChat";
 import FeaturesMoney from "../../components/features/FeaturesMoney";
