@@ -28,7 +28,7 @@ npm install
 - [Yarn](https://yarnpkg.com/)
 - [REACT](https://en.reactjs.org/)
 
-  is recommanded to run charts correctly
+  is recommended to properly run the code
 
 - [VsCode](https://code.visualstudio.com/download)
 
