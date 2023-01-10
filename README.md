@@ -43,6 +43,8 @@ clone the repository : https://github.com/sousouben/Mouatakide_Souad_P13_012023.
 - Package installations after cloning.
 
 ```bash
+# Enter a folder
+cd backend or cd frontend
 # with NPM
 npm install
 # with Yarn
