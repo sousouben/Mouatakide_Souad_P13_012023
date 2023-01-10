@@ -65,7 +65,7 @@ yarn start
 - You can generate jsdoc after cloning.
 
 ```bash
-# For the front end
+# For the frontend
 npm run doc
 ```
 
