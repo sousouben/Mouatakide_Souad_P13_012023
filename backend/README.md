@@ -1,4 +1,8 @@
-# Project #10 - Argent Bank API
+# Backend Argent Bank projet 13 openclassroom - Mouatakide Souad
+
+---
+
+![logo](../frontend/src/assets/img/argentBankLogo.png)
 
 This codebase contains the code needed to run the backend for Argent Bank.
 
@@ -24,12 +28,12 @@ mongo --version
 ### Instructions
 
 1. Fork this repo
-1. Clone the repo onto your computer
+1. Or Clone the repo onto your computer
 1. Open a terminal window in the cloned project
 1. Run the following commands:
 
 ```bash
-# entrer dans le fichier
+# Enter file
 cd backend
 
 # Install dependencies
@@ -73,3 +77,81 @@ Static HTML and CSS has been created for most of the site and is located in: `/d
 For some of the dynamic features, like toggling user editing, there is a mock-up for it in `/designs/wireframes/edit-user-name.png`.
 
 And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
+
+---
+
+# Project #13 - API Banque d'Argent
+
+Cette base de code contient le code nécessaire pour exécuter le backend pour Argent Bank.
+
+## Commencer
+
+### Prerequis
+
+Argent Bank utilise la pile technologique suivante :
+
+- [Node.js v12](https://nodejs.org/en/)
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+
+Assurez-vous d'avoir les bonnes versions et téléchargez les deux packages. Vous pouvez le vérifier en utilisant les commandes suivantes dans votre terminal :
+
+```bash
+# Vérifier la version de Node.js
+node --version
+
+# Vérifier la version de Mongo
+mongo --version
+```
+
+### Instructions
+
+1. Forker ce dépôt
+1. ou Clonez le référentiel sur votre ordinateur
+1. Ouvrez une fenêtre de terminal dans le projet cloné
+1. Exécutez les commandes suivantes :
+
+```bash
+# Entrer dans le fichier
+cd back-end
+
+# Installer les dépendances
+installation npm
+
+# Démarrer le serveur de développement local
+npm run dev:serveur
+
+# Remplir la base de données avec deux utilisateurs
+npm exécuter peupler-db
+```
+
+Votre serveur devrait maintenant fonctionner sur http://locahost:3001 et vous aurez maintenant deux utilisateurs dans votre base de données MongoDB !
+
+## Données de base de données remplies
+
+Une fois que vous avez exécuté le script `populate-db`, vous devriez avoir deux utilisateurs dans votre base de données :
+
+### Tony Stark
+
+- Prénom : "Tony"
+- Nom de famille : "Stark"
+- Courriel : `tony@stark.com`
+- Mot de passe : `password123`
+
+###Steve Rogers
+
+- Prénom : 'Steve',
+- Nom de famille : 'Rogers',
+- Courriel : `steve@rogers.com`,
+- Mot de passe : `password456`
+
+## Documentation de l'API
+
+Pour en savoir plus sur le fonctionnement de l'API, une fois que vous avez démarré votre environnement local, vous pouvez visiter : http://localhost:3001/api-docs
+
+## Éléments de conception
+
+HTML et CSS statiques ont été créés pour la majeure partie du site et se trouvent dans : `/designs`.
+
+Pour certaines des fonctionnalités dynamiques, comme le basculement de l'édition par l'utilisateur, il existe une maquette dans `/designs/wireframes/edit-user-name.png`.
+
+Et pour le modèle d'API que vous allez proposer pour les transactions, le wireframe se trouve dans `/designs/wireframes/transactions.png`.

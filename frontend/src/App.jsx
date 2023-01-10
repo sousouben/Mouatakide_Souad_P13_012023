@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import Error from "./pages/error/Error";
@@ -15,8 +15,7 @@ const App = () => {
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<SignIn />}></Route>
         <Route path="/profile" element={<User />} />
-        <Route path="/error" element={<Error />} />
-        <Route path="*" element={<Navigate to="/error" />} />
+        <Route path="/*" element={<Error />} />
       </Routes>
       <Footer />
     </div>

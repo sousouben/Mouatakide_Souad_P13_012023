@@ -1,3 +1,31 @@
+## Fontend Argent Bank projet 13 openclassroom - Mouatakide Souad
+
+---
+
+![logo](src/assets/img/argentBankLogo.png)
+
+- Installations des packages à la suite du clonage.
+
+```bash
+# avec NPM
+npm install
+# avec Yarn
+yarn
+```
+
+- Lancement de l'application
+
+```bash
+cd frontend
+npm run start
+# ou
+npm start
+# avec Yarn
+yarn start
+```
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
