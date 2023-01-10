@@ -28,7 +28,7 @@ npm install
 - [Yarn](https://yarnpkg.com/)
 - [REACT](https://en.reactjs.org/)
 
-  is recommanded to run charts correctly
+  is recommended to properly run the code
 
 - [VsCode](https://code.visualstudio.com/download)
 
@@ -43,6 +43,8 @@ clone the repository : https://github.com/sousouben/Mouatakide_Souad_P13_012023.
 - Package installations after cloning.
 
 ```bash
+# Enter a folder
+cd backend or cd frontend
 # with NPM
 npm install
 # with Yarn
@@ -52,6 +54,7 @@ yarn
 - Start the application
 
 ```bash
+# For the frontend
 npm run start
 # or
 npm start
@@ -62,6 +65,7 @@ yarn start
 - You can generate jsdoc after cloning.
 
 ```bash
+# For the frontend
 npm run doc
 ```
 
