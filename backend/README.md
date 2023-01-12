@@ -115,7 +115,7 @@ mongo --version
 cd back-end
 
 # Installer les dépendances
-installation npm
+npm install
 
 # Démarrer le serveur de développement local
 npm run dev:serveur
