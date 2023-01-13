@@ -14,9 +14,9 @@ const Header = () => {
         <Link to="/login" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
         </Link>
-        <Link to="/" className="main-nav-item">
+        <Link to="/login" className="main-nav-item">
           <i className="fa fa-sign-out"></i>
-          Sign Out
+          Sign In
         </Link>
       </div>
     </nav>
