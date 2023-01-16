@@ -13,9 +13,6 @@ const Header = () => {
       <div>
         <Link to="/login" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
-        </Link>
-        <Link to="/login" className="main-nav-item">
-          <i className="fa fa-sign-out"></i>
           Sign In
         </Link>
       </div>
