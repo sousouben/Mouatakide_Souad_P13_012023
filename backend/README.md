@@ -121,7 +121,7 @@ npm install
 npm run dev:serveur
 
 # Remplir la base de données avec deux utilisateurs
-npm exécuter peupler-db
+npm run populate-db
 ```
 
 Votre serveur devrait maintenant fonctionner sur http://locahost:3001 et vous aurez maintenant deux utilisateurs dans votre base de données MongoDB !
