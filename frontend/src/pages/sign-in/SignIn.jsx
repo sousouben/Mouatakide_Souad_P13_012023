@@ -2,17 +2,35 @@ import React from "react";
 import { useState } from "react";
 import "./signIn.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SignIn() {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  //const [user, setUser] = useState("");
+  //const [password, setPassword] = useState("");
+  const API_URL = "http://localhost:3001/api/v1/user/";
   const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("envoi formulaire");
-    console.log(user, password);
-    navigate("/profile");
+    console.log(credentials);
+    axios
+      .post(API_URL + "login", credentials)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/profile");
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <main className="main bg-dark">
@@ -24,9 +42,11 @@ function SignIn() {
             <label htmlFor="username">Username</label>
             <input
               type="text"
-              id="username"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
+              id="email"
+              name="email"
+              placeholder="email@email.com"
+              value={credentials.email}
+              onChange={onChange}
             />
           </div>
           <div className="input-wrapper">
@@ -34,8 +54,9 @@ function SignIn() {
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={credentials.password}
+              onChange={onChange}
             />
           </div>
           <div className="input-remember">
