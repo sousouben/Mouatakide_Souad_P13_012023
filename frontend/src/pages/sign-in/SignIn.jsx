@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function SignIn() {
-  //const [user, setUser] = useState("");
-  //const [password, setPassword] = useState("");
   const API_URL = "http://localhost:3001/api/v1/user/";
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
@@ -23,7 +21,6 @@ function SignIn() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(credentials);
     axios
       .post(API_URL + "login", credentials)
       .then((res) => {
