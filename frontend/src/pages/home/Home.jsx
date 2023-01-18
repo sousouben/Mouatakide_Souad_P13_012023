@@ -1,9 +1,9 @@
 import React from "react";
 import "./home.css";
 import Banner from "../../components/banner/Banner";
-import FeaturesChat from "../../components/features/FeaturesChat";
-import FeaturesMoney from "../../components/features/FeaturesMoney";
-import FeaturesSecurity from "../../components/features/FeaturesSecurity";
+import FeaturesChat from "../../components/accueil/FeaturesChat";
+import FeaturesMoney from "../../components/accueil/FeaturesMoney";
+import FeaturesSecurity from "../../components/accueil/FeaturesSecurity";
 
 const Home = () => {
   return (

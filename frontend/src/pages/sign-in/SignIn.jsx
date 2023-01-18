@@ -8,8 +8,8 @@ function SignIn() {
   const API_URL = "http://localhost:3001/api/v1/user/";
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
+    email: "tony@stark.com",
+    password: "password123",
   });
 
   const onChange = (e) => {
@@ -44,6 +44,7 @@ function SignIn() {
               placeholder="email@email.com"
               value={credentials.email}
               onChange={onChange}
+              required
             />
           </div>
           <div className="input-wrapper">
@@ -54,6 +55,7 @@ function SignIn() {
               name="password"
               value={credentials.password}
               onChange={onChange}
+              required
             />
           </div>
           <div className="input-remember">
