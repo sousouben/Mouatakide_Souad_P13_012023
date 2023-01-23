@@ -2,39 +2,48 @@ import React from "react";
 import { useState } from "react";
 import "./signIn.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import {
+  axiosUserToken,
+  axiosUserData,
+  setRemember,
+} from "../../services/actions";
+import { useDispatch } from "react-redux";
 
 function SignIn() {
-  const API_URL = "http://localhost:3001/api/v1/user/";
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({
-    email: "tony@stark.com",
-    password: "password123",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [invalid, setInvalid] = useState(false);
 
-  const onChange = (e) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const onSubmit = (e) => {
+  async function login(e) {
     e.preventDefault();
-    axios
-      .post(API_URL + "login", credentials)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/profile");
-      })
-      .catch((error) => console.log(error));
-  };
+
+    const remember = document.getElementById("remember-me").checked;
+    const userLogin = { email, password };
+    const token = await dispatch(axiosUserToken(userLogin));
+
+    if (!token) {
+      setInvalid(true);
+      return;
+    }
+
+    setInvalid(false);
+    dispatch(axiosUserData(token));
+
+    remember
+      ? setRemember(token, remember)
+      : sessionStorage.setItem("token", token);
+
+    navigate("/profile");
+  }
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={login}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
@@ -42,8 +51,7 @@ function SignIn() {
               id="email"
               name="email"
               placeholder="email@email.com"
-              value={credentials.email}
-              onChange={onChange}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -53,8 +61,7 @@ function SignIn() {
               type="password"
               id="password"
               name="password"
-              value={credentials.password}
-              onChange={onChange}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
@@ -64,6 +71,9 @@ function SignIn() {
           </div>
           <button className="sign-in-button">Sign In</button>
         </form>
+        {invalid ? (
+          <div className="messageConnexionError">invalid credentials</div>
+        ) : null}
       </section>
     </main>
   );
