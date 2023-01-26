@@ -9,6 +9,28 @@ import {
 } from "../../services/actions";
 import { useDispatch } from "react-redux";
 
+/**
+ * Composant SignIn qui permet aux utilisateurs de se connecter à l'application.
+ *
+ * @module SignIn
+ * @requires react
+ * @requires react-router-dom
+ * @requires react-redux
+ * @requires services/actions
+ *
+ * @function SignIn
+ *
+ * @returns {JSX}
+ *
+ * @property {string} email - L'email de l'utilisateur
+ * @property {string} password - Le mot de passe de l'utilisateur
+ * @property {boolean} invalid - Le statut de validation des informations de connexion
+ *
+ * @function login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur
+ * @param {Event} e - L'objet d'événement de la soumission de formulaire
+ *
+ */
+
 function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
