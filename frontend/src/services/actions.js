@@ -48,7 +48,7 @@ export function axiosUserToken(userLogin) {
     if (tokenStatus === "pending" || tokenStatus === "updating") {
       return;
     }
-    dispatch(actions.userTokenFetching(userLogin));
+    dispatch(actions.fetchUserTokenStart(userLogin));
     try {
       const response = await axios.post(
         "http://localhost:3001/api/v1/user/login",
@@ -63,11 +63,11 @@ export function axiosUserToken(userLogin) {
       }
 
       const token = response.data.body.token;
-      dispatch(actions.userTokenResolved(token));
+      dispatch(actions.fetchUserTokenSuccess(token));
 
       return token;
     } catch (error) {
-      dispatch(actions.userTokenRejected(error.message));
+      dispatch(actions.fetchUserTokenError(error.message));
     }
   };
 }
@@ -77,7 +77,7 @@ export function axiosUserToken(userLogin) {
  * @function
  * @async
  * @param {string} token - Le jeton de l'utilisateur
- * @returns {function} - Envoie l'action userDataFetching, userDataResolved ou userDataRejected en fonction de la réponse de l'API.
+ * @returns {function} - Envoie l'action fetchUserDataStart, fetchUserDataSuccess ou fetchUserDataError en fonction de la réponse de l'API.
  *
  */
 export function axiosUserData(token) {
@@ -92,7 +92,7 @@ export function axiosUserData(token) {
       return <SignIn />;
     }
 
-    dispatch(actions.userDataFetching(token));
+    dispatch(actions.fetchUserDataStart(token));
 
     try {
       const { data } = await axios.post(
@@ -106,14 +106,14 @@ export function axiosUserData(token) {
       if (data.status === 401) {
         dispatch(signOut());
       }
-      dispatch(actions.userDataResolved(token, data.body));
+      dispatch(actions.fetchUserDataSuccess(token, data.body));
     } catch (error) {
-      dispatch(actions.userDataRejected(error.message));
+      dispatch(actions.fetchUserDataError(error.message));
     }
   };
 }
 
-/*export function axiosUpdateUserData(token, firstName, lastName) {
+export function axiosUpdateUserData(token, firstName, lastName) {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(
@@ -127,10 +127,9 @@ export function axiosUserData(token) {
       if (data.status === 401) {
         dispatch(signOut());
       }
-      dispatch(actions.userUpdateProfile(token, firstName, lastName));
+      dispatch(actions.updateUserProfile(token, firstName, lastName));
     } catch (error) {
-      dispatch(actions.userDataRejected(error.message));
+      dispatch(actions.fetchUserDataError(error.message));
     }
   };
 }
-*/

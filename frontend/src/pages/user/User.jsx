@@ -1,12 +1,12 @@
 import React from "react";
 import Transactions from "../../components/transactions/Transactions";
-import UserName from "../../components/userName/UserName";
+import UserNameChange from "../../components/userName/UserName";
 import "./user.css";
 
 function User() {
   return (
     <main className="main bg-dark">
-      <UserName />
+      <UserNameChange />
       <h2 className="sr-only">Accounts</h2>
       <Transactions
         accountTitle="Argent Bank Checking (x8349)"
