@@ -1,12 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Transactions from "../../components/transactions/Transactions";
-import UserNameChange from "../../components/userName/UserName";
+import UserName from "../../components/userName/UserName";
 import "./user.css";
+import { selectUser } from "../../feature/selector";
+import { useSelector, useDispatch } from "react-redux/es/exports";
+import { signOut, axiosUpdateUserData } from "../../services/actions";
+import { useNavigate } from "react-router-dom";
 
 function User() {
+  const userData = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  useEffect(() => {
+    if (!userData.data) {
+      if (token) {
+        dispatch(axiosUpdateUserData(token));
+        navigate("/profile");
+      } else {
+        localStorage.clear();
+        sessionStorage.clear();
+        dispatch(signOut());
+        navigate("/login");
+      }
+    }
+  }, [dispatch, navigate, token, userData]);
+
+  if (!userData.data) {
+    return null;
+  }
+
   return (
     <main className="main bg-dark">
-      <UserNameChange />
+      <UserName userData={userData} />
       <h2 className="sr-only">Accounts</h2>
       <Transactions
         accountTitle="Argent Bank Checking (x8349)"

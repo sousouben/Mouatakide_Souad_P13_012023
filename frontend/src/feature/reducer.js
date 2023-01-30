@@ -104,6 +104,9 @@ const { actions, reducer } = createSlice({
       state.data.firstName = action.payload.firstName;
       state.data.lastName = action.payload.lastName;
     },
+    /*reset: (state) => {
+      return initialState;
+    },*/
   },
 });
 
