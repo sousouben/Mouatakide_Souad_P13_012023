@@ -1,52 +1,54 @@
 import React, { useState } from "react";
 import "./userName.css";
-import { useDispatch } from "react-redux";
 import { axiosUpdateUserData } from "../../services/actions";
+import { selectUser } from "../../feature/selector";
+import { useSelector, useDispatch } from "react-redux/es/exports";
 
-function UserName({ userData }) {
+/**
+ * @function UserName
+ * @description Composant pour afficher le nom de l'utilisateur et permettre la modification du nom.
+ * @param {Object} userData - Les données de l'utilisateur.
+ * @returns {JSX} Composant pour afficher le nom de l'utilisateur et permettre la modification du nom.
+ */
+
+function UserName() {
+  /**
+   * hook de dispatch pour mettre à jour les données de l'utilisateur
+   */
   const dispatch = useDispatch();
-
-  const [userName, setUsername] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [edit, setEdit] = useState(false);
+  const userData = useSelector(selectUser);
 
-  function name(e) {
+  /**
+   * Récupération du jeton de l'utilisateur depuis le localStorage, sessionStorage ou les données de l'utilisateur
+   */
+  const token =
+    localStorage.getItem("token") ||
+    sessionStorage.getItem("token") ||
+    userData.token;
+
+  /**
+   * Gestionnaire d'événement soumettant les modifications du nom d'utilisateur
+   * @param {Event} e - événement du formulaire
+   */
+  function handleSubmit(e) {
     e.preventDefault();
-
-    const token =
-      localStorage.getItem("token") ||
-      sessionStorage.getItem("token") ||
-      userData.token;
-
-    const edit = dispatch(
-      (function name(e) {
-        e.preventDefault();
-
-        const token =
-          localStorage.getItem("token") ||
-          sessionStorage.getItem("token") ||
-          userData.token;
-
-        const edit = dispatch(axiosUpdateUserData(token, firstName, lastName));
-
-        if (!edit) {
-          return;
-        }
-
-        setUsername(false);
-      })(token, firstName, lastName)
-    );
-
-    if (!edit) {
-      return;
-    }
-
-    setUsername(false);
+    /**
+     * Dispatch pour mettre à jour les données de l'utilisateur
+     */
+    dispatch(axiosUpdateUserData(token, firstName, lastName));
+    /**
+     * Mettre à jour le hook de state pour ne plus afficher la forme de modification
+     */
+    setEdit(false);
   }
-  return userName ? (
+
+  return edit ? (
     <div className="header">
       <h1 className="">Welcome back</h1>
-      <form className="formChange" onSubmit={(e) => name(e)}>
+      <form className="formChange" onSubmit={handleSubmit}>
         <div className="divInputChange">
           <input
             className="inputChange"
@@ -69,7 +71,7 @@ function UserName({ userData }) {
             className="buttonChange"
             onClick={(e) => {
               e.preventDefault();
-              setUsername(false);
+              setEdit(false);
             }}
           >
             Cancel
@@ -84,7 +86,7 @@ function UserName({ userData }) {
         <br />
         {userData.data.firstName} {userData.data.lastName}!
       </h1>
-      <button className="edit-button" onClick={() => setUsername(true)}>
+      <button className="edit-button" onClick={() => setEdit(true)}>
         Edit Name
       </button>
     </div>
