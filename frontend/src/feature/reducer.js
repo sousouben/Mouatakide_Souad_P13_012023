@@ -1,14 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/**
- * État initial de la tranche de connexion du Redux store
- * @typedef {Object} LoginState - Etat de connexion
- * @property {string} tokenStatus - Le statut actuel du jeton (vide, en attente, résolu, rejeté)
- * @property {string} dataStatus - Le statut actuel des données utilisateur (vide, en attente, résolu, rejeté)
- * @property {Object} data - Les données utilisateur, null si non chargé
- * @property {string} error - Le message d'erreur, null si aucune erreur
- * @property {string} token - Le jeton utilisateur, null si non chargé
- */
 const initialState = {
   tokenStatus: "void",
   dataStatus: "void",
@@ -17,92 +8,139 @@ const initialState = {
   token: null,
 };
 
-/**
- * @typedef {Object} LoginSlice - connexion
- * @property {Object} actions - Un objet contenant les actions pour la tranche de connexion
- * @property {Function} reducer - La fonction réducteur pour la tranche de connexion
- */
 const { actions, reducer } = createSlice({
   name: "login",
   initialState,
   reducers: {
-    /**
-     * Créateur d'action pour définir l'état sur "en attente" lorsqu'une demande de récupération des données utilisateur est faite
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @returns {void}
-     */
-    fetchUserDataStart: (state) => {
-      state.dataStatus = "pending";
-      state.error = null;
+    userDataFetching: {
+      prepare: (token) => ({
+        payload: { token },
+      }),
+      reducer: (state, action) => {
+        if (state.dataStatus === undefined) {
+          return initialState;
+        }
+        if (state.dataStatus === "void") {
+          state.dataStatus = "pending";
+          return;
+        }
+        if (state.dataStatus === "rejected") {
+          state.dataStatus = "pending";
+          state.error = null;
+          return;
+        }
+        if (state.dataStatus === "resolved") {
+          state.dataStatus = "updating";
+          return;
+        }
+      },
     },
-    /**
-     * Créateur d'action pour définir l'état sur "résolu" lorsqu'une demande de récupération des données utilisateur est réussi
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @param {Object} action - l'objet d'action
-     * @returns {void}
-     */
-    fetchUserDataSuccess: (state, action) => {
-      state.dataStatus = "resolved";
-      state.data = action.payload.data;
-      state.token = action.payload.token;
+    userDataResolved: {
+      prepare: (token, data) => ({
+        payload: { token, data },
+      }),
+      reducer: (state, action) => {
+        if (state.dataStatus === undefined) {
+          return initialState;
+        }
+        if (state.dataStatus === "pending" || state.dataStatus === "updating") {
+          state.dataStatus = "resolved";
+          state.data = action.payload.data;
+          state.token = action.payload.token;
+          return;
+        }
+      },
     },
-    /**
-     * Créateur d'action pour définir l'état sur "rejeté" lorsqu'une demande de récupération des données utilisateur échoue
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @param {Object} action - L'objet d'action
-     * @returns {void}
-     */
-    fetchUserDataError: (state, action) => {
-      state.dataStatus = "rejected";
-      state.error = action.payload;
-      state.data = null;
+    userDataRejected: {
+      prepare: (token, error) => ({
+        payload: { token, error },
+      }),
+      reducer: (state, action) => {
+        if (state.dataStatus === undefined) {
+          return initialState;
+        }
+        if (state.dataStatus === "pending" || state.dataStatus === "updating") {
+          state.dataStatus = "rejected";
+          state.error = action.payload;
+          state.data = null;
+          return;
+        }
+      },
     },
-    /**
-     * Créateur d'action pour définir l'état sur "en attente" lorsqu'une demande de récupération de jeton d'utilisateur est effectuée
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @returns {void}
-     */
-    fetchUserTokenStart: (state) => {
-      state.tokenStatus = "pending";
-      state.error = null;
+    userTokenFetching: {
+      prepare: (userLogin) => ({
+        payload: { userLogin },
+      }),
+      reducer: (state, action) => {
+        if (state.tokenStatus === undefined) {
+          return initialState;
+        }
+        if (state.tokenStatus === "void") {
+          state.tokenStatus = "pending";
+          return;
+        }
+        if (state.tokenStatus === "rejected") {
+          state.tokenStatus = "pending";
+          state.error = null;
+          return;
+        }
+        if (state.tokenStatus === "resolved") {
+          state.tokenStatus = "updating";
+          return;
+        }
+      },
     },
-    /**
-     * Créateur d'action pour définir l'état sur "résolu" lorsqu'une demande de récupération de jeton d'utilisateur aboutit
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @param {Object} action - L'objet d'action
-     * @returns {void}
-     */
-    fetchUserTokenSuccess: (state, action) => {
-      state.tokenStatus = "resolved";
-      state.data = action.payload;
+    userTokenResolved: {
+      prepare: (userLogin, token) => ({
+        payload: { userLogin, token },
+      }),
+      reducer: (state, action) => {
+        if (state.tokenStatus === undefined) {
+          return initialState;
+        }
+        if (
+          state.tokenStatus === "pending" ||
+          state.tokenStatus === "updating"
+        ) {
+          state.tokenStatus = "resolved";
+          state.data = action.payload;
+          return;
+        }
+      },
     },
-    /**
-     * Créateur d'action pour définir l'état sur "rejeté" lorsqu'une demande de récupération de jeton utilisateur échoue
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @param {Object} action - L'objet d'action
-     * @returns {void}
-     */
-    fetchUserTokenError: (state, action) => {
-      state.tokenStatus = "rejected";
-      state.error = action.payload.message;
-      state.data = null;
+    userTokenRejected: {
+      prepare: (userLogin, error) => ({
+        payload: { userLogin, error },
+      }),
+      reducer: (state, action) => {
+        if (state.tokenStatus === undefined) {
+          return initialState;
+        }
+        if (
+          state.tokenStatus === "pending" ||
+          state.tokenStatus === "updating"
+        ) {
+          state.tokenStatus = "rejected";
+          state.error = action.payload.message;
+          state.data = null;
+          return;
+        }
+      },
     },
-    /**
-     * Créateur d'action pour la mise à jour des données du profil utilisateur
-     * @function
-     * @param {LoginState} state - L'état actuel de la tranche de connexion
-     * @param {Object} action - L'objet d'action contenant les nouvelles données de profil
-     * @returns {void}
-     */
-    updateUserProfile: (state, action) => {
-      state.data.firstName = action.payload.firstName;
-      state.data.lastName = action.payload.lastName;
+    userUpdateProfile: {
+      prepare: (token, firstName, lastName) => ({
+        payload: { token, firstName, lastName },
+      }),
+      reducer: (state, action) => {
+        state.data.firstName = action.payload.firstName;
+        state.data.lastName = action.payload.lastName;
+        return;
+      },
+    },
+    reset: {
+      reducer: () => {
+        return initialState;
+      },
     },
   },
 });

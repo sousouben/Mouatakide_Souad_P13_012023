@@ -3,8 +3,8 @@ import { useState } from "react";
 import "./signIn.css";
 import { useNavigate } from "react-router-dom";
 import {
-  axiosUserToken,
-  axiosUserData,
+  fetchUserToken,
+  fetchUserData,
   setRemember,
 } from "../../services/actions";
 import { useDispatch } from "react-redux";
@@ -43,7 +43,7 @@ function SignIn() {
 
     const remember = document.getElementById("remember-me").checked;
     const userLogin = { email, password };
-    const token = await dispatch(axiosUserToken(userLogin));
+    const token = await dispatch(fetchUserToken(userLogin));
 
     if (!token) {
       setInvalid(true);
@@ -51,7 +51,7 @@ function SignIn() {
     }
 
     setInvalid(false);
-    dispatch(axiosUserData(token));
+    dispatch(fetchUserData(token));
 
     remember
       ? setRemember(token, remember)

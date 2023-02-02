@@ -1,57 +1,41 @@
 import { actions } from "../feature/reducer";
 import SignIn from "../pages/sign-in/SignIn";
 import { selectUser } from "../feature/selector";
-import axios from "axios";
 
-/**
- * @function
- * @description signOut est une fonction qui efface les données de stockage local et de session et déclenche une action pour réinitialiser l'état de l'utilisateur.
- * @param {function} dispatch - Une fonction qui déclenche une action vers le store.
- * @returns {function} Une fonction qui efface les données de stockage local et de session et déclenche une action pour réinitialiser l'état de l'utilisateur.
- *
- */
 export function signOut() {
   return (dispatch) => {
     localStorage.clear();
     sessionStorage.clear();
+    dispatch(actions.reset());
   };
 }
 
-/**
- * @function
- * @param {string} token - Le jeton à stocker dans le stockage local.
- * @param {boolean} remember - Un booléen indiquant si l'utilisateur a choisi d'être mémorisé ou non.
- * @description Cette fonction est utilisée pour définir le jeton et mémoriser la valeur dans le stockage local.
- *
- */
 export function setRemember(token, remember) {
   localStorage.setItem("token", token);
   localStorage.setItem("isRemembered", remember);
 }
 
-/**
- * @function
- * @async
- * @param {Object} userLogin - Un objet contenant les informations de connexion de l'utilisateur.
- * @param {string} userLogin.email - L'e-mail de l'utilisateur.
- * @param {string} userLogin.password - Le mot de passe de l'utilisateur.
- * @param {Function} dispatch - Une fonction qui distribue une action au store.
- * @param {Function} getState - Une fonction qui obtient l'état actuel du store.
- * @returns {Promise<string>} - Une promesse qui résout le jeton de l'utilisateur si la connexion réussit, ou la rejette avec un message d'erreur si elle échoue.
- *
- */
-export function axiosUserToken(userLogin) {
+export function fetchUserToken(userLogin) {
   return async (dispatch, getState) => {
     const tokenStatus = selectUser(getState()).tokenStatus;
 
     if (tokenStatus === "pending" || tokenStatus === "updating") {
       return;
     }
-    dispatch(actions.fetchUserTokenStart(userLogin));
+    dispatch(actions.userTokenFetching(userLogin));
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userLogin),
+    };
+
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "http://localhost:3001/api/v1/user/login",
-        userLogin
+        options
       );
 
       if (response.status === 400) {
@@ -61,25 +45,18 @@ export function axiosUserToken(userLogin) {
         dispatch(actions.reset());
       }
 
-      const token = response.data.body.token;
-      dispatch(actions.fetchUserTokenSuccess(token));
+      const data = await response.json();
 
-      return token;
+      dispatch(actions.userTokenResolved(data.body.token));
+
+      return data.body.token;
     } catch (error) {
-      dispatch(actions.fetchUserTokenError(error.message));
+      dispatch(actions.userTokenRejected(error.message));
     }
   };
 }
 
-/**
- * Récupérer les données utilisateur de l'API à l'aide du jeton fourni
- * @function
- * @async
- * @param {string} token - Le jeton de l'utilisateur
- * @returns {function} - Envoie l'action fetchUserDataStart, fetchUserDataSuccess ou fetchUserDataError en fonction de la réponse de l'API.
- *
- */
-export function axiosUserData(token) {
+export function fetchUserData(token) {
   return async (dispatch, getState) => {
     const status = selectUser(getState()).dataStatus;
 
@@ -91,44 +68,63 @@ export function axiosUserData(token) {
       return <SignIn />;
     }
 
-    dispatch(actions.fetchUserDataStart(token));
+    dispatch(actions.userDataFetching(token));
+
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     try {
-      const { data } = await axios.post(
+      const response = await fetch(
         "http://localhost:3001/api/v1/user/profile",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        options
       );
-      if (data.status === 400) {
+
+      if (response.status === 400) {
         console.log("invalid fields");
       }
-      if (data.status === 401) {
+      if (response.status === 401) {
         dispatch(signOut());
       }
-      dispatch(actions.fetchUserDataSuccess(token, data.body));
+
+      const data = await response.json();
+      dispatch(actions.userDataResolved(token, data.body));
     } catch (error) {
-      dispatch(actions.fetchUserDataError(error.message));
+      dispatch(actions.userDataRejected(error.message));
     }
   };
 }
 
-export function axiosUpdateUserData(token, firstName, lastName) {
+export function updateUserData(token, firstName, lastName) {
   return async (dispatch) => {
+    const options = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ firstName, lastName }),
+    };
+
     try {
-      const { data } = await axios.put(
+      const response = await fetch(
         "http://localhost:3001/api/v1/user/profile",
-        { firstName, lastName },
-        { headers: { Authorization: `Bearer ${token}` } }
+        options
       );
-      if (data.status === 400) {
+
+      if (response.status === 400) {
         console.log("invalid fields");
       }
-      if (data.status === 401) {
+      if (response.status === 401) {
         dispatch(signOut());
       }
-      dispatch(actions.updateUserProfile(token, firstName, lastName));
+
+      dispatch(actions.userUpdateProfile(token, firstName, lastName));
     } catch (error) {
-      dispatch(actions.fetchUserDataError(error.message));
+      dispatch(actions.userDataRejected(error.message));
     }
   };
 }
