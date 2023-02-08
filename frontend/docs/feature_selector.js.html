@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/transactions/Transactions.jsx</title>
+    <title>JSDoc: Source: feature/selector.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/transactions/Transactions.jsx</h1>
+    <h1 class="page-title">Source: feature/selector.js</h1>
 
     
 
@@ -26,51 +26,13 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from "react";
-import PropTypes from "prop-types";
-
-/**
- * @module Transactions
- * @description Composant React permettant d'afficher les informations d'une transaction bancaire spécifique.
- * Il importe un fichier CSS pour fournir des styles pour le composant.
+            <pre class="prettyprint source linenums"><code>/**
+ * @function selectUser
+ * @description Sélectionne l'utilisateur depuis l'état de l'application.
+ * @param {object} state - L'état de l'application.
+ * @returns {object} state.user - L'objet utilisateur.
  */
-
-/**
- * Props (propriétés) du composant
- * @property {string} accountTitle - Titre de la transaction.
- * @property {string} accountAmount - Montant de la transaction.
- * @property {string} accountBalance - Solde de compte après la transaction.
- */
-
-/**
- * @function
- * @name Transactions
- * @param {Object} props - Les propriétés du composant
- * @returns {React.Component} - Composant React pour afficher les informations de la transaction.
- */
-
-function Transactions({ accountTitle, accountAmount, accountBalance }) {
-  return (
-    &lt;section className="account">
-      &lt;div className="account-content-wrapper">
-        &lt;h3 className="account-title">{accountTitle}&lt;/h3>
-        &lt;p className="account-amount">{accountAmount}&lt;/p>
-        &lt;p className="account-amount-description">{accountBalance}&lt;/p>
-      &lt;/div>
-      &lt;div className="account-content-wrapper cta">
-        &lt;button className="transaction-button">View transactions&lt;/button>
-      &lt;/div>
-    &lt;/section>
-  );
-}
-
-Transactions.propTypes = {
-  accountTitle: PropTypes.string.isRequired,
-  accountAmount: PropTypes.string.isRequired,
-  accountBalance: PropTypes.string.isRequired,
-};
-
-export default Transactions;
+export const selectUser = (state) => state.user;
 </code></pre>
         </article>
     </section>

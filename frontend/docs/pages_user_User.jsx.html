@@ -32,85 +32,87 @@ import UserName from "../../components/userName/UserName";
 import "./user.css";
 import { selectUser } from "../../feature/selector";
 import { useSelector, useDispatch } from "react-redux/es/exports";
-import { signOut, axiosUpdateUserData } from "../../services/actions";
+import { signOut, fetchUserData } from "../../services/actions";
 import { useNavigate } from "react-router-dom";
 
 /**
  * @function User
- * Cette fonction gère l'affichage et la mise à jour des données utilisateur.
- * Si l'utilisateur n'est pas connecté, il est redirigé vers la page de connexion.
- * Si un jeton est présent dans le stockage local ou de session, les données utilisateur sont mises à jour.
- * Si aucun jeton n'est présent, le stockage local et de session sont vidés et l'utilisateur est déconnecté.
- * @return {null} - Si les données de l'utilisateur ne sont pas disponibles
+ * @description Affiche les informations d'un utilisateur.
+ * Vérifie si l'utilisateur est connecté ou non, et navigue vers la page de profil ou de connexion en conséquence.
+ * Utilise les données de l'utilisateur depuis le state de l'application avec la fonction useSelector et dispatch une action avec useDispatch. Utilise également la fonction useNavigate pour naviguer entre les pages.
+ * @returns {JSX.Element} Le composant React affichant les informations de l'utilisateur.
  */
 function User() {
-  /**
-   * Récupère les données d'utilisateur à partir du store
-   */
   const userData = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  /**
-   * Récupère le token d'authentification à partir du localStorage ou du sessionStorage
-   */
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  /**
-   * Hook useEffect qui s'exécute lorsque les dépendances sont modifiées
-   */
   useEffect(() => {
     if (!userData.data) {
-      /**
-       * Si le token d'authentification est présent
-       * Envoie une action pour mettre à jour les données d'utilisateur avec le token
-       * Navigue vers la page de profil
-       */
       if (token) {
-        dispatch(axiosUpdateUserData(token));
+        /**
+         * @function fetchUserData
+         * @description Dispatch une action pour récupérer les données de l'utilisateur à partir d'un token.
+         * @param {string} token - Le token d'authentification de l'utilisateur.
+         * @returns {object} L'action à dispatcher pour récupérer les données de l'utilisateur.
+         */
+        dispatch(fetchUserData(token));
         navigate("/profile");
       } else {
-        /**
-         * Efface les données du localStorage et du sessionStorage
-         * Envoie une action pour déconnecter l'utilisateur
-         * Navigue vers la page de connexion
-         */
         localStorage.clear();
         sessionStorage.clear();
+        /**
+         * @function signOut
+         * @description Dispatch une action pour déconnecter l'utilisateur.
+         * @returns {object} L'action à dispatcher pour déconnecter l'utilisateur.
+         */
         dispatch(signOut());
         navigate("/login");
       }
     }
   }, [dispatch, navigate, token, userData]);
-  /**
-   * Si les données d'utilisateur ne sont pas présentes, renvoie null
-   */
+
   if (!userData.data) {
-    console.log(userData);
     return null;
   }
 
   return (
-    &lt;main className="main bg-dark">
-      &lt;UserName userData={userData} />
-      &lt;h2 className="sr-only">Accounts&lt;/h2>
-      &lt;Transactions
-        accountTitle="Argent Bank Checking (x8349)"
-        accountAmount="$2,082.79"
-        accountBalance="Available Balance"
-      />
-      &lt;Transactions
-        accountTitle="Argent Bank Savings (x6712)"
-        accountAmount="$10,928.42"
-        accountBalance="Available Balance"
-      />
-      &lt;Transactions
-        accountTitle="Argent Bank Credit Card (x8349)"
-        accountAmount="$184.30"
-        accountBalance="Current Balance"
-      />
-    &lt;/main>
+    &lt;div className="pageContainer">
+      &lt;main className="main bg-dark">
+        {/**@function UserName
+         * @description Affiche le nom de l'utilisateur.
+         * @param {object} userData - Les données de l'utilisateur.
+         * @returns {JSX.Element} Le composant React affichant le nom de l'utilisateur. */}
+        &lt;UserName userData={userData} />
+        &lt;h2 className="sr-only">Accounts&lt;/h2>
+        {/**
+         * @function Transactions
+         * @description Affiche les transactions de l'utilisateur.
+         * @param {string} accountTitle - Le titre du compte.
+         * @param {string} accountAmount - Le montant du compte.
+         * @param {string} accountBalance - Le solde disponible du compte.
+         * @returns {JSX.Element} Le composant React affichant les transactions de l'utilisateur.
+         */}
+        &lt;Transactions
+          accountTitle="Argent Bank Checking (x8349)"
+          accountAmount="$2,082.79"
+          accountBalance="Available Balance"
+        />
+        &lt;Transactions
+          accountTitle="Argent Bank Savings (x6712)"
+          accountAmount="$10,928.42"
+          accountBalance="Available Balance"
+        />
+        &lt;Transactions
+          accountTitle="Argent Bank Credit Card (x8349)"
+          accountAmount="$184.30"
+          accountBalance="Current Balance"
+        />
+      &lt;/main>
+    &lt;/div>
   );
 }
 
@@ -125,13 +127,13 @@ export default User;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Transactions.html">Transactions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Header">Header</a></li><li><a href="global.html#UserCettefonctiong%25C3%25A8rel'affichageetlamise%25C3%25A0jourdesdonn%25C3%25A9esutilisateur.Sil'utilisateurn'estpasconnect%25C3%25A9,ilestredirig%25C3%25A9verslapagedeconnexion.Siunjetonestpr%25C3%25A9sentdanslestockagelocaloudesession,lesdonn%25C3%25A9esutilisateursontmises%25C3%25A0jour.Siaucunjetonn'estpr%25C3%25A9sent,lestockagelocaletdesessionsontvid%25C3%25A9setl'utilisateurestd%25C3%25A9connect%25C3%25A9.">UserCette fonction gère l'affichage et la mise à jour des données utilisateur.Si l'utilisateur n'est pas connecté, il est redirigé vers la page de connexion.Si un jeton est présent dans le stockage local ou de session, les données utilisateur sont mises à jour.Si aucun jeton n'est présent, le stockage local et de session sont vidés et l'utilisateur est déconnecté.</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#axiosUserData">axiosUserData</a></li><li><a href="global.html#axiosUserToken">axiosUserToken</a></li><li><a href="global.html#login-G%25C3%25A8relasoumissionduformulairedeconnexionetlancedesactionspourlaconnexiondel'utilisateur">login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur</a></li><li><a href="global.html#setRemember">setRemember</a></li><li><a href="global.html#signOut">signOut</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Transactions.html">Transactions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Transactions">Transactions</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#fetchUserData">fetchUserData</a></li><li><a href="global.html#fetchUserToken">fetchUserToken</a></li><li><a href="global.html#login-G%25C3%25A8relasoumissionduformulairedeconnexionetlancedesactionspourlaconnexiondel'utilisateur">login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#selectUser">selectUser</a></li><li><a href="global.html#setRemember">setRemember</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#updateUserData">updateUserData</a></li><li><a href="global.html#userDataFetching">userDataFetching</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Jan 31 2023 19:09:01 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Feb 08 2023 10:41:25 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -31,45 +31,51 @@ import "./header.css";
 import logo from "../../assets/img/argentBankLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { signOut, axiosUserData } from "../../services/actions";
+import { signOut, fetchUserData } from "../../services/actions";
 import { selectUser } from "../../feature/selector";
 
 /**
- * @function Header
- * @returns {JSX.Element} A navigation bar with logo, sign in/sign out button, and links.
+ * Header - Fonction de rendu du header de l'application
+ *
+ * @returns {JSX.Element} Elément JSX représentant le header
  */
-const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+function Header() {
+  // Récupération des données de l'utilisateur via hook useSelector
   const userData = useSelector(selectUser);
+  // Récupération du token dans le localStorage ou sessionStorage
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  // Récupération de l'état de "se souvenir de moi" dans le localStorage
   const isRemembered = localStorage.getItem("isRemembered");
 
-  /**
-   * @desc Fonction pour déconnecter l'utilisateur.
-   * Efface les données du localStorage et du sessionStorage.
-   * Dispatch une action pour signer le utilisateur hors.
-   */
-  const handleSignOut = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    dispatch(signOut());
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   /**
-   * @desc Gère la procédure d'authentification de l'utilisateur. Si l'utilisateur est en mémoire,il récupère les données à partir du localStorage ou sessionStorage, sinon il est redirigé vers la page de connexion.
+   * clearStorage - Fonction de nettoyage du localStorage et sessionStorage et de la déconnexion de l'utilisateur
+   *
+   * @returns {void}
    */
-  const handleSignIn = () => {
+  function clearStorage() {
+    return localStorage.clear(), sessionStorage.clear(), dispatch(signOut());
+  }
+
+  /**
+   * remember - Fonction de gestion de l'état "se souvenir de moi"
+   *
+   * @returns {void}
+   */
+  function remember() {
     if (isRemembered) {
-      const token =
-        localStorage.getItem("token") || sessionStorage.getItem("token");
-      dispatch(axiosUserData(token));
+      dispatch(fetchUserData(token));
       navigate("/profile");
     } else {
       navigate("/login");
     }
-  };
+  }
 
-  return (
+  // Rendu conditionnel du header en fonction de la présence d'un token et de données de l'utilisateur
+  return token &amp;&amp; userData.data ? (
     &lt;nav className="main-nav">
       &lt;Link to="/" className="main-nav-logo">
         &lt;img
@@ -79,18 +85,34 @@ const Header = () => {
         />
         &lt;h1 className="sr-only">Argent Bank&lt;/h1>
       &lt;/Link>
-      &lt;div
-        onClick={userData.data ? handleSignOut : handleSignIn}
-        className="main-nav-item"
-      >
-        {/**Si "userData.data" existe, cela signifie que l'utilisateur est connecté, donc la fonction "handleSignOut" sera appelée. Sinon, la fonction "handleSignIn" sera appelée. */}
+      &lt;div>
+        &lt;Link to="/login" className="main-nav-item">
+          &lt;i className="fa fa-user-circle">&lt;/i>
+          {userData.data.firstName}
+        &lt;/Link>
+        &lt;Link to="/" onClick={clearStorage} className="main-nav-item">
+          &lt;i className="fa fa-sign-out">&lt;/i>
+          Sign Out
+        &lt;/Link>
+      &lt;/div>
+    &lt;/nav>
+  ) : (
+    &lt;nav className="main-nav">
+      &lt;Link to="/" className="main-nav-logo">
+        &lt;img
+          className="main-nav-logo-image"
+          src={logo}
+          alt="Argent Bank Logo"
+        />
+        &lt;h1 className="sr-only">Argent Bank&lt;/h1>
+      &lt;/Link>
+      &lt;div onClick={remember} className="main-nav-item">
         &lt;i className="fa fa-user-circle">&lt;/i>
-        {userData.data ? `${userData.data.firstName} Sign Out` : `Sign In`}
-        {/** il affiche soit le prénom de l'utilisateur suivi de "Sign Out" si les données d'utilisateur sont disponibles, soit simplement "Sign In" s'il n'y a pas de données d'utilisateur. */}
+        Sign In
       &lt;/div>
     &lt;/nav>
   );
-};
+}
 
 export default Header;
 </code></pre>
@@ -103,13 +125,13 @@ export default Header;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Transactions.html">Transactions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Header">Header</a></li><li><a href="global.html#UserCettefonctiong%25C3%25A8rel'affichageetlamise%25C3%25A0jourdesdonn%25C3%25A9esutilisateur.Sil'utilisateurn'estpasconnect%25C3%25A9,ilestredirig%25C3%25A9verslapagedeconnexion.Siunjetonestpr%25C3%25A9sentdanslestockagelocaloudesession,lesdonn%25C3%25A9esutilisateursontmises%25C3%25A0jour.Siaucunjetonn'estpr%25C3%25A9sent,lestockagelocaletdesessionsontvid%25C3%25A9setl'utilisateurestd%25C3%25A9connect%25C3%25A9.">UserCette fonction gère l'affichage et la mise à jour des données utilisateur.Si l'utilisateur n'est pas connecté, il est redirigé vers la page de connexion.Si un jeton est présent dans le stockage local ou de session, les données utilisateur sont mises à jour.Si aucun jeton n'est présent, le stockage local et de session sont vidés et l'utilisateur est déconnecté.</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#axiosUserData">axiosUserData</a></li><li><a href="global.html#axiosUserToken">axiosUserToken</a></li><li><a href="global.html#login-G%25C3%25A8relasoumissionduformulairedeconnexionetlancedesactionspourlaconnexiondel'utilisateur">login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur</a></li><li><a href="global.html#setRemember">setRemember</a></li><li><a href="global.html#signOut">signOut</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Transactions.html">Transactions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Transactions">Transactions</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#fetchUserData">fetchUserData</a></li><li><a href="global.html#fetchUserToken">fetchUserToken</a></li><li><a href="global.html#login-G%25C3%25A8relasoumissionduformulairedeconnexionetlancedesactionspourlaconnexiondel'utilisateur">login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#selectUser">selectUser</a></li><li><a href="global.html#setRemember">setRemember</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#updateUserData">updateUserData</a></li><li><a href="global.html#userDataFetching">userDataFetching</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Jan 31 2023 19:09:00 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Feb 08 2023 10:41:25 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

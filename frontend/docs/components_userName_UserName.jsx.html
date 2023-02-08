@@ -28,53 +28,45 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
 import "./userName.css";
-import { useDispatch } from "react-redux";
-import { axiosUpdateUserData } from "../../services/actions";
+import { updateUserData } from "../../services/actions";
+import { useDispatch } from "react-redux/es/exports";
 
 /**
- * @function UserName
- * @description Composant pour afficher le nom de l'utilisateur et permettre la modification du nom.
- * @param {Object} userData - Les données de l'utilisateur.
- * @returns {JSX} Composant pour afficher le nom de l'utilisateur et permettre la modification du nom.
+ * La fonction UserName affiche le nom de l'utilisateur connecté et permet de le modifier en utilisant un formulaire.
+ * @param {Object} userData - Les données de l'utilisateur connecté
+ * @param {string} userData.data.firstName - Le prénom de l'utilisateur
+ * @param {string} userData.data.lastName - Le nom de famille de l'utilisateur
+ * @param {string} userData.token - Le jeton d'authentification de l'utilisateur
+ * @returns {JSX.Element} Un élément React représentant la bienvenue et le nom de l'utilisateur, avec la possibilité de le modifier.
  */
-
 function UserName({ userData }) {
-  /**
-   * hook de dispatch pour mettre à jour les données de l'utilisateur
-   */
   const dispatch = useDispatch();
+
+  const [userName, setUsername] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [edit, setEdit] = useState(false);
 
-  /**
-   * Récupération du jeton de l'utilisateur depuis le localStorage, sessionStorage ou les données de l'utilisateur
-   */
-  const token =
-    localStorage.getItem("token") ||
-    sessionStorage.getItem("token") ||
-    userData.token;
-
-  /**
-   * Gestionnaire d'événement soumettant les modifications du nom d'utilisateur
-   * @param {Event} e - événement du formulaire
-   */
-  function handleSubmit(e) {
+  function name(e) {
     e.preventDefault();
-    /**
-     * Dispatch pour mettre à jour les données de l'utilisateur
-     */
-    dispatch(axiosUpdateUserData(token, firstName, lastName));
-    /**
-     * Mettre à jour le hook de state pour ne plus afficher la forme de modification
-     */
-    setEdit(false);
+
+    const token =
+      localStorage.getItem("token") ||
+      sessionStorage.getItem("token") ||
+      userData.token;
+
+    const edit = dispatch(updateUserData(token, firstName, lastName));
+
+    if (!edit) {
+      return;
+    }
+
+    setUsername(false);
   }
 
-  return edit ? (
+  return userName ? (
     &lt;div className="header">
       &lt;h1 className="">Welcome back&lt;/h1>
-      &lt;form className="formChange" onSubmit={handleSubmit}>
+      &lt;form className="formChange" onSubmit={(e) => name(e)}>
         &lt;div className="divInputChange">
           &lt;input
             className="inputChange"
@@ -95,10 +87,7 @@ function UserName({ userData }) {
           &lt;/button>
           &lt;button
             className="buttonChange"
-            onClick={(e) => {
-              e.preventDefault();
-              setEdit(false);
-            }}
+            onClick={(e) => (e.preventDefault(e), setUsername(false))}
           >
             Cancel
           &lt;/button>
@@ -112,7 +101,7 @@ function UserName({ userData }) {
         &lt;br />
         {userData.data.firstName} {userData.data.lastName}!
       &lt;/h1>
-      &lt;button className="edit-button" onClick={() => setEdit(true)}>
+      &lt;button className="edit-button" onClick={() => setUsername(true)}>
         Edit Name
       &lt;/button>
     &lt;/div>
@@ -130,13 +119,13 @@ export default UserName;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Transactions.html">Transactions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Header">Header</a></li><li><a href="global.html#UserCettefonctiong%25C3%25A8rel'affichageetlamise%25C3%25A0jourdesdonn%25C3%25A9esutilisateur.Sil'utilisateurn'estpasconnect%25C3%25A9,ilestredirig%25C3%25A9verslapagedeconnexion.Siunjetonestpr%25C3%25A9sentdanslestockagelocaloudesession,lesdonn%25C3%25A9esutilisateursontmises%25C3%25A0jour.Siaucunjetonn'estpr%25C3%25A9sent,lestockagelocaletdesessionsontvid%25C3%25A9setl'utilisateurestd%25C3%25A9connect%25C3%25A9.">UserCette fonction gère l'affichage et la mise à jour des données utilisateur.Si l'utilisateur n'est pas connecté, il est redirigé vers la page de connexion.Si un jeton est présent dans le stockage local ou de session, les données utilisateur sont mises à jour.Si aucun jeton n'est présent, le stockage local et de session sont vidés et l'utilisateur est déconnecté.</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#axiosUserData">axiosUserData</a></li><li><a href="global.html#axiosUserToken">axiosUserToken</a></li><li><a href="global.html#login-G%25C3%25A8relasoumissionduformulairedeconnexionetlancedesactionspourlaconnexiondel'utilisateur">login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur</a></li><li><a href="global.html#setRemember">setRemember</a></li><li><a href="global.html#signOut">signOut</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Transactions.html">Transactions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Transactions">Transactions</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#fetchUserData">fetchUserData</a></li><li><a href="global.html#fetchUserToken">fetchUserToken</a></li><li><a href="global.html#login-G%25C3%25A8relasoumissionduformulairedeconnexionetlancedesactionspourlaconnexiondel'utilisateur">login - Gère la soumission du formulaire de connexion et lance des actions pour la connexion de l'utilisateur</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#selectUser">selectUser</a></li><li><a href="global.html#setRemember">setRemember</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#updateUserData">updateUserData</a></li><li><a href="global.html#userDataFetching">userDataFetching</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Jan 31 2023 19:09:01 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Feb 08 2023 10:41:25 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -2,6 +2,13 @@ import { actions } from "../feature/reducer";
 import SignIn from "../pages/sign-in/SignIn";
 import { selectUser } from "../feature/selector";
 
+/**
+ * La fonction signOut déconnecte l'utilisateur et efface les données stockées en local et en session.
+ * @function
+ * @param {function} dispatch - Dispatch est une fonction dépendant du contexte qui est utilisée pour déclencher une action.
+ * @returns {function} - Retourne une fonction qui efface les données de l'utilisateur.export description]
+ *
+ */
 export function signOut() {
   return (dispatch) => {
     localStorage.clear();
@@ -10,11 +17,28 @@ export function signOut() {
   };
 }
 
+/**
+ * La fonction setRemember enregistre le token de l'utilisateur et s'il souhaite être connecté automatiquement.
+ * @function
+ * @param {string} token - Token d'identification de l'utilisateur.
+ * @param {boolean} remember - Indique si l'utilisateur souhaite être connecté automatiquement.
+ *
+ */
 export function setRemember(token, remember) {
   localStorage.setItem("token", token);
   localStorage.setItem("isRemembered", remember);
 }
 
+/**
+ * La fonction fetchUserToken envoie une demande pour récupérer le token d'un utilisateur.
+ * @function
+ * @async
+ * @param {Object} userLogin - Contient les informations de connexion de l'utilisateur.
+ * @param {function} dispatch - Dispatch est une fonction dépendant du contexte qui est utilisée pour déclencher une action.
+ * @param {function} getState - Retourne l'état actuel du store.
+ * @returns {Promise<string>} - Retourne le token de l'utilisateur s'il a réussi à se connecter.
+ *
+ */
 export function fetchUserToken(userLogin) {
   return async (dispatch, getState) => {
     const tokenStatus = selectUser(getState()).tokenStatus;
@@ -56,6 +80,16 @@ export function fetchUserToken(userLogin) {
   };
 }
 
+/**
+ * La fonction fetchUserData envoie une demande pour récupérer les données d'un utilisateur.
+ * @function
+ * @async
+ * @param {string} token - Token d'identification de l'utilisateur.
+ * @param {function} dispatch - Dispatch est une fonction dépendant du contexte qui est utilisée pour déclencher une action.
+ * @param {function} getState - Retourne l'état actuel du store.
+ * @returns {Promise<React.ReactElement>} - Retourne un élément React <SignIn /> s'il y a une erreur.
+ *
+ */
 export function fetchUserData(token) {
   return async (dispatch, getState) => {
     const status = selectUser(getState()).dataStatus;
@@ -98,6 +132,17 @@ export function fetchUserData(token) {
   };
 }
 
+/**
+ * La fonction updateUserData envoie une demande pour mettre à jour les données d'un utilisateur.
+ * @function
+ * @async
+ * @param {string} token - Token d'identification de l'utilisateur.
+ * @param {string} firstName - Prénom de l'utilisateur.
+ * @param {string} lastName - Nom de l'utilisateur.
+ * @param {function} dispatch - Dispatch est une fonction dépendant du contexte qui est utilisée pour déclencher une action.
+ * @returns {Promise}
+ *
+ */
 export function updateUserData(token, firstName, lastName) {
   return async (dispatch) => {
     const options = {

@@ -3,6 +3,14 @@ import "./userName.css";
 import { updateUserData } from "../../services/actions";
 import { useDispatch } from "react-redux/es/exports";
 
+/**
+ * La fonction UserName affiche le nom de l'utilisateur connecté et permet de le modifier en utilisant un formulaire.
+ * @param {Object} userData - Les données de l'utilisateur connecté
+ * @param {string} userData.data.firstName - Le prénom de l'utilisateur
+ * @param {string} userData.data.lastName - Le nom de famille de l'utilisateur
+ * @param {string} userData.token - Le jeton d'authentification de l'utilisateur
+ * @returns {JSX.Element} Un élément React représentant la bienvenue et le nom de l'utilisateur, avec la possibilité de le modifier.
+ */
 function UserName({ userData }) {
   const dispatch = useDispatch();
 
