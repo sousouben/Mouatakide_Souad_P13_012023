@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 /**
- * @module Transactions
+ * @module AccountItem
  * @description Composant React permettant d'afficher les informations d'une transaction bancaire spécifique.
  * Il importe un fichier CSS pour fournir des styles pour le composant.
  */
@@ -16,12 +16,12 @@ import PropTypes from "prop-types";
 
 /**
  * @function
- * @name Transactions
+ * @name AccountItem
  * @param {Object} props - Les propriétés du composant
  * @returns {React.Component} - Composant React pour afficher les informations de la transaction.
  */
 
-function Transactions({ accountTitle, accountAmount, accountBalance }) {
+function AccountItem({ accountTitle, accountAmount, accountBalance }) {
   return (
     <section className="account">
       <div className="account-content-wrapper">
@@ -36,10 +36,10 @@ function Transactions({ accountTitle, accountAmount, accountBalance }) {
   );
 }
 
-Transactions.propTypes = {
+AccountItem.propTypes = {
   accountTitle: PropTypes.string.isRequired,
   accountAmount: PropTypes.string.isRequired,
   accountBalance: PropTypes.string.isRequired,
 };
 
-export default Transactions;
+export default AccountItem;

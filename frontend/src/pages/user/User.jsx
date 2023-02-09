@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import Transactions from "../../components/transactions/Transactions";
 import UserName from "../../components/userName/UserName";
 import "./user.css";
 import { selectUser } from "../../feature/selector";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { signOut, fetchUserData } from "../../services/actions";
 import { useNavigate } from "react-router-dom";
+import AccountItem from "../../components/accountItem/AccountItem";
 
 /**
  * @function User
@@ -61,24 +61,24 @@ function User() {
         <UserName userData={userData} />
         <h2 className="sr-only">Accounts</h2>
         {/**
-         * @function Transactions
+         * @function AccountItem
          * @description Affiche les transactions de l'utilisateur.
          * @param {string} accountTitle - Le titre du compte.
          * @param {string} accountAmount - Le montant du compte.
          * @param {string} accountBalance - Le solde disponible du compte.
          * @returns {JSX.Element} Le composant React affichant les transactions de l'utilisateur.
          */}
-        <Transactions
+        <AccountItem
           accountTitle="Argent Bank Checking (x8349)"
           accountAmount="$2,082.79"
           accountBalance="Available Balance"
         />
-        <Transactions
+        <AccountItem
           accountTitle="Argent Bank Savings (x6712)"
           accountAmount="$10,928.42"
           accountBalance="Available Balance"
         />
-        <Transactions
+        <AccountItem
           accountTitle="Argent Bank Credit Card (x8349)"
           accountAmount="$184.30"
           accountBalance="Current Balance"

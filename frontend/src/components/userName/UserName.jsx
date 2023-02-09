@@ -59,7 +59,10 @@ function UserName({ userData }) {
           </button>
           <button
             className="buttonChange"
-            onClick={(e) => (e.preventDefault(e), setUsername(false))}
+            onClick={(e) => {
+              e.preventDefault(e);
+              setUsername(false);
+            }}
           >
             Cancel
           </button>

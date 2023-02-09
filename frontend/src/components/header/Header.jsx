@@ -29,7 +29,9 @@ function Header() {
    * @returns {void}
    */
   function clearStorage() {
-    return localStorage.clear(), sessionStorage.clear(), dispatch(signOut());
+    localStorage.clear();
+    sessionStorage.clear();
+    return dispatch(signOut());
   }
 
   /**
