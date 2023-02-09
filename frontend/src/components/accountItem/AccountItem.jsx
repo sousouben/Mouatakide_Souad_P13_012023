@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -22,6 +22,11 @@ import PropTypes from "prop-types";
  */
 
 function AccountItem({ accountTitle, accountAmount, accountBalance }) {
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsButtonClicked(!isButtonClicked);
+  };
   return (
     <section className="account">
       <div className="account-content-wrapper">
@@ -30,7 +35,14 @@ function AccountItem({ accountTitle, accountAmount, accountBalance }) {
         <p className="account-amount-description">{accountBalance}</p>
       </div>
       <div className="account-content-wrapper cta">
-        <button className="transaction-button">View transactions</button>
+        <button
+          className={`transaction-button ${
+            isButtonClicked ? "transaction-button-clicked" : ""
+          }`}
+          onClick={handleButtonClick}
+        >
+          View transactions
+        </button>
       </div>
     </section>
   );

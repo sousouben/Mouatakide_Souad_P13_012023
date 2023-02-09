@@ -8,6 +8,7 @@ import {
   setRemember,
 } from "../../services/actions";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 /**
  * Composant SignIn qui permet aux utilisateurs de se connecter à l'application.
@@ -69,8 +70,7 @@ function SignIn() {
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
-              type="text"
-              id="email"
+              type="email"
               name="email"
               placeholder="email@email.com"
               onChange={(e) => setEmail(e.target.value)}
@@ -81,7 +81,6 @@ function SignIn() {
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              id="password"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -100,5 +99,11 @@ function SignIn() {
     </main>
   );
 }
+
+SignIn.propTypes = {
+  email: PropTypes.string,
+  password: PropTypes.string,
+  invalid: PropTypes.bool,
+};
 
 export default SignIn;

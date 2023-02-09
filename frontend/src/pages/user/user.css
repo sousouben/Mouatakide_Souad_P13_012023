@@ -60,6 +60,10 @@
   color: #fff;
 }
 
+.transaction-button-clicked {
+  background-color: #22492e;
+}
+
 @media (min-width: 720px) {
   .account {
     flex-direction: row;
