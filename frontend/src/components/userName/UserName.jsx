@@ -40,16 +40,22 @@ function UserName({ userData }) {
       <h1 className="">Welcome back</h1>
       <form className="formChange" onSubmit={(e) => name(e)}>
         <div className="divInputChange">
+          <label htmlFor="firstName"></label>
           <input
             className="inputChange"
             type="text"
-            placeholder={userData.data.firstName}
+            name="firstName"
+            placeholder={firstName}
+            required
             onChange={(e) => setFirstName(e.target.value)}
           />
+          <label htmlFor="lastName"></label>
           <input
             className="inputChange"
             type="text"
-            placeholder={userData.data.lastName}
+            name="lastName"
+            placeholder={lastName}
+            required
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
@@ -59,6 +65,7 @@ function UserName({ userData }) {
           </button>
           <button
             className="buttonChange"
+            type="submit"
             onClick={(e) => {
               e.preventDefault(e);
               setUsername(false);
