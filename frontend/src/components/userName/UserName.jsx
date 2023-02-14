@@ -45,7 +45,8 @@ function UserName({ userData }) {
             className="inputChange"
             type="text"
             name="firstName"
-            placeholder={firstName}
+            placeholder=""
+            value={firstName}
             required
             onChange={(e) => setFirstName(e.target.value)}
           />
@@ -54,7 +55,8 @@ function UserName({ userData }) {
             className="inputChange"
             type="text"
             name="lastName"
-            placeholder={lastName}
+            placeholder=""
+            value={lastName}
             required
             onChange={(e) => setLastName(e.target.value)}
           />

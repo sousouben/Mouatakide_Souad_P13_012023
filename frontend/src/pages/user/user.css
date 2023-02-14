@@ -34,6 +34,9 @@
   width: 100%;
   flex: 1;
 }
+.account-content-wrapper a {
+  text-decoration: none;
+}
 
 .edit-button {
   border-color: #00bc77;
