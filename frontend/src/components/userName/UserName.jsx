@@ -15,8 +15,8 @@ function UserName({ userData }) {
   const dispatch = useDispatch();
 
   const [userName, setUsername] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState(userData.data.firstName);
+  const [lastName, setLastName] = useState(userData.data.lastName);
 
   function name(e) {
     e.preventDefault();
