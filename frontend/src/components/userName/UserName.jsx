@@ -15,8 +15,14 @@ function UserName({ userData }) {
   const dispatch = useDispatch();
 
   const [userName, setUsername] = useState(false);
-  const [firstName, setFirstName] = useState(userData.data.firstName);
-  const [lastName, setLastName] = useState(userData.data.lastName);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  function showEditProfileForm() {
+    setUsername(true);
+    setFirstName(userData.data.firstName);
+    setLastName(userData.data.lastName);
+  }
 
   function name(e) {
     e.preventDefault();
@@ -85,7 +91,7 @@ function UserName({ userData }) {
         <br />
         {userData.data.firstName} {userData.data.lastName}!
       </h1>
-      <button className="edit-button" onClick={() => setUsername(true)}>
+      <button className="edit-button" onClick={() => showEditProfileForm()}>
         Edit Name
       </button>
     </div>
