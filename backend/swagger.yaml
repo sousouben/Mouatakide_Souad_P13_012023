@@ -112,7 +112,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error          
-  /user/transactions/{transactionsAccountID}:
+  /user/transactions:
     get:
       security:
         - Bearer: []
@@ -142,7 +142,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /user/transactions/{transactionsAccountID}/{transactionID}:
+  /user/transactions/{transactionID}:
     get:
       security:
         - Bearer: []
@@ -386,3 +386,4 @@ definitions:
         type: string
         description: operation successully
       
+
