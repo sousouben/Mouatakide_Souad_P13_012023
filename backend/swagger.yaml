@@ -117,7 +117,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - Acount checking transactions
+        - Account checking transactions
       summary: User transactions API
       description: API for account checking Transactions
       parameters:
@@ -147,7 +147,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - Acount checking transactions
+        - Account checking transactions
       summary: User transaction API
       description: API for account checking Transaction
       parameters:
@@ -181,7 +181,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - Acount checking transactions
+        - Account checking transactions
       summary: User transaction Informations API
       description: API for Informations Transaction
       parameters:
@@ -219,7 +219,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - Acount checking transactions
+        - Account checking transactions
       summary: User transaction Informations API
       description: API for Informations Transaction
       parameters:
@@ -253,7 +253,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - Acount checking transactions
+        - Account checking transactions
       summary: User transaction Informations API
       description: API for Informations Transaction
       parameters:
