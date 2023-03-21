@@ -126,7 +126,7 @@ paths:
           description: Attach Bearer JWT token
           type : string
           required: true          
-        - name: transactionsAccountID
+        - name: transactions
           in: path
           required: true
           description: Account transactions
@@ -156,7 +156,7 @@ paths:
           description: Attach Bearer JWT token
           type : string
           required: true          
-        - name: transactionsAccountID
+        - name: transactions
           in: path
           required: true
           description: Account transactions
@@ -190,7 +190,7 @@ paths:
           description: Attach Bearer JWT token
           type : string
           required: true
-        - name: transactionsAccountID
+        - name: transactions
           in: path
           required: true
           description: Account transactions
@@ -228,7 +228,7 @@ paths:
           description: Attach Bearer JWT token
           type : string
           required: true          
-        - name: transactionsAccountID
+        - name: transactions
           in: path
           required: true
           description: Account transactions
@@ -262,7 +262,7 @@ paths:
           description: Attach Bearer JWT token
           type : string
           required: true          
-        - name: transactionsAccountID
+        - name: transactions
           in: path
           required: true
           description: Account transactions
