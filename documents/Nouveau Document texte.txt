@@ -1,0 +1,8 @@
+ HTML statique et le CSS
+https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API/tree/master/designs
+
+nos modèles de GitHub Issues
+https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API/tree/master/.github/ISSUE_TEMPLATE
+
+notre repo existant 
+https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git
